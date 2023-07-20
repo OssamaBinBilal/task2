@@ -6,13 +6,15 @@ import Posts from "./pages/Posts/Posts";
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<>skdona</>} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/*" element={<>nogga</>} />
-      </Routes>
+      <div class="container">
+        <Routes>
+          <Route path="/" element={<>skdona</>} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/*" element={<>nogga</>} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

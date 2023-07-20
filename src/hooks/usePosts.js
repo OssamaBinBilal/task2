@@ -3,19 +3,46 @@ import { useState, useEffect } from "react";
 const usePosts = () => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const retrievePosts = () => {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
+  const retrievePosts = async () => {
+    const postsResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/posts"
+    );
+    const fetchedPosts = await postsResponse.json();
+    const usersResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+    const fetchedUsers = await usersResponse.json();
+
+    const listOfComments = Promise.all(
+      fetchedPosts.map(async (post) => {
+        const commentsResponse = await fetch(
+          `https://jsonplaceholder.typicode.com/posts/${post.id}/comments`
+        );
+        return commentsResponse;
+      })
+    );
+
+    const listOfResults = await listOfComments;
+
+    listOfResults.forEach((promise) => console.log(promise.json()));
+
+    const mergedArray = fetchedPosts.map((post) => {
+      return {
+        ...post,
+        username: fetchedUsers.filter((user) => user.id === post.userId)[0]
+          .username,
+        nameOfUser: fetchedUsers.filter((user) => user.id === post.userId)[0]
+          .name,
+        userEmail: fetchedUsers.filter((user) => user.id === post.userId)[0]
+          .email,
+        // comments: await commentsResponse.json(),
       };
+    });
 
-      fetch("https://jsonplaceholder.typicode.com/posts", requestOptions)
-        .then((response) => response.text())
-        .then((result) => setPosts(JSON.parse(result)))
-        .catch((error) => console.log("error", error));
-    };
+    setPosts(mergedArray);
+  };
 
+  useEffect(() => {
     retrievePosts();
   }, []);
 
