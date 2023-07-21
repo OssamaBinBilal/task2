@@ -35,7 +35,6 @@ const usePosts = () => {
           .name,
         userEmail: fetchedUsers.filter((user) => user.id === post.userId)[0]
           .email,
-        // comments: await commentsResponse.json(),
       };
     });
 
