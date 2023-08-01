@@ -1,8 +1,6 @@
 import { usePosts } from "../../hooks/usePosts";
-import { useRef, useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiEdit, FiSave } from "react-icons/fi";
-import PostTitle from "../PostTitle/PostTitle";
 
 const PostIcons = ({ post, isEditable, setIsEditable, titleRef, bodyRef }) => {
   const { deletePost, editPost } = usePosts();

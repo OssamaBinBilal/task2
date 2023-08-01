@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -9,7 +9,6 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const login = (email, password) => {
@@ -23,7 +22,6 @@ export function AuthProvider({ children }) {
     if (attemptedUser) {
       setUser(attemptedUser);
       localStorage.setItem("currentUser", JSON.stringify(attemptedUser));
-
       return 200;
     } else {
       return 401;
@@ -47,7 +45,6 @@ export function AuthProvider({ children }) {
     user,
     login,
     logout,
-    loading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

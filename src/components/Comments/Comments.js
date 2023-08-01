@@ -5,6 +5,10 @@ import Comment from "../Comment/Comment";
 const Comments = ({ id, isCustom }) => {
   const [commentList, setCommentList] = useState([]);
 
+  useEffect(() => {
+    retrieveCommentsByPost(id);
+  }, [id]);
+
   const retrieveCommentsByPost = (id) => {
     if (!isCustom) {
       var requestOptions = {
@@ -33,10 +37,6 @@ const Comments = ({ id, isCustom }) => {
       }
     }
   };
-
-  useEffect(() => {
-    retrieveCommentsByPost(id);
-  }, [id]);
 
   return (
     <div className="px-4" style={{ maxHeight: "25vh", overflowY: "auto" }}>

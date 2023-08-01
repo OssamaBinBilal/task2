@@ -1,4 +1,3 @@
-import { usePosts } from "../../hooks/usePosts";
 import { useRef, useState } from "react";
 import CommentEmail from "../CommentEmail/CommentEmail";
 import CommentBody from "../CommentBody/CommentBody";
