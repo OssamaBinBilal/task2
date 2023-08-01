@@ -19,29 +19,33 @@ export function PostProvider({ children }) {
   const [receivedPosts, setReceivedPosts] = useState([]);
 
   const retrievePosts = async () => {
-    const postsResponse = await fetch(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
-    const fetchedPosts = await postsResponse.json();
-    const usersResponse = await fetch(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-    const fetchedUsers = await usersResponse.json();
+    try {
+      const postsResponse = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      const fetchedPosts = await postsResponse.json();
+      const usersResponse = await fetch(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      const fetchedUsers = await usersResponse.json();
 
-    const mergedArray = fetchedPosts.map((post) => {
-      return {
-        ...post,
-        username: fetchedUsers.filter((user) => user.id === post.userId)[0]
-          .username,
-        nameOfUser: fetchedUsers.filter((user) => user.id === post.userId)[0]
-          .name,
-        userEmail: fetchedUsers.filter((user) => user.id === post.userId)[0]
-          .email,
-      };
-    });
+      const mergedArray = fetchedPosts.map((post) => {
+        return {
+          ...post,
+          username: fetchedUsers.filter((user) => user.id === post.userId)[0]
+            .username,
+          nameOfUser: fetchedUsers.filter((user) => user.id === post.userId)[0]
+            .name,
+          userEmail: fetchedUsers.filter((user) => user.id === post.userId)[0]
+            .email,
+        };
+      });
 
-    setReceivedPosts(mergedArray);
-    setPosts(mergedArray);
+      setReceivedPosts(mergedArray);
+      setPosts(mergedArray);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -165,6 +169,18 @@ export function PostProvider({ children }) {
     localStorage.setItem("posts", JSON.stringify(finalPosts));
   };
 
+  const editComment = (commentId, body) => {
+    const currentComments = JSON.parse(localStorage.getItem("comments"));
+    const finalComments = currentComments.map((comment) => {
+      if (comment.id === commentId) {
+        comment.body = body;
+      }
+      return comment;
+    });
+
+    localStorage.setItem("comments", JSON.stringify(finalComments));
+  };
+
   const value = {
     posts,
     addPost,
@@ -172,6 +188,7 @@ export function PostProvider({ children }) {
     addComment,
     deleteComment,
     editPost,
+    editComment,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
