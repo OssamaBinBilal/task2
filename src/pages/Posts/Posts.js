@@ -3,6 +3,9 @@ import "./posts.css";
 import { useAuth } from "../../hooks/useAuth";
 import { usePosts } from "../../hooks/usePosts";
 
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { FiEdit, FiSave } from "react-icons/fi";
+
 const AddComment = ({ postId, setIsCommentsOn }) => {
   const inputRef = useRef();
   const { addComment } = usePosts();
@@ -66,30 +69,38 @@ const Comments = ({ id, isCustom }) => {
 
   return (
     <div className="px-4" style={{ maxHeight: "25vh", overflowY: "auto" }}>
-      {commentList.map((comment) => (
-        <p key={comment.id}>
-          {comment.email ===
-            JSON.parse(localStorage.getItem("currentUser"))?.email && (
-            <button
-              onClick={() => {
-                deleteComment(comment.id);
-                setCommentList([...commentList]);
-              }}
-            >
-              kekw
-            </button>
-          )}
-          <span className="fw-bold">{comment.email}:</span>
-          <span style={{ color: "#808080" }}> {comment.body}</span>
-        </p>
-      ))}
+      {commentList.length > 0 &&
+        commentList.map((comment) => (
+          <p key={comment.id} className="d-flex">
+            <span className="fw-bold">{comment.email}:</span>
+            <span style={{ color: "#808080" }}> {comment.body}</span>
+            {comment.email ===
+              JSON.parse(localStorage.getItem("currentUser"))?.email && (
+              <RiDeleteBin6Line
+                onClick={() => {
+                  deleteComment(comment.id);
+                  setCommentList([...commentList]);
+                }}
+                style={{ color: "red", marginLeft: "auto" }}
+              />
+            )}
+          </p>
+        ))}
+      {commentList.length === 0 && (
+        <p className="text-center">No comments found under this post</p>
+      )}
     </div>
   );
 };
 
 const Post = ({ post, isCustom }) => {
   const [isCommentsOn, setIsCommentsOn] = useState(false);
-  const { deletePost } = usePosts();
+  const [isEditable, setIsEditable] = useState(false);
+  const { deletePost, editPost } = usePosts();
+
+  const titleRef = useRef();
+  const bodyRef = useRef();
+
   return (
     <div
       key={post.id}
@@ -106,14 +117,54 @@ const Post = ({ post, isCustom }) => {
         style={{ backgroundColor: "#f7f7f7", marginTop: "-5px" }}
         className="p-3 rounded"
       >
-        <h5>
+        <div className="d-flex">
+          <h5 ref={titleRef} contentEditable={isEditable}>
+            {post.title}
+          </h5>
           {post.userEmail ===
             JSON.parse(localStorage.getItem("currentUser")).email && (
-            <button onClick={() => deletePost(post.id)}>delet</button>
+            <div style={{ marginLeft: "auto" }}>
+              <RiDeleteBin6Line
+                onClick={() => deletePost(post.id)}
+                style={{ color: "red", fontSize: "24px" }}
+              />
+              {!isEditable && (
+                <FiEdit
+                  style={{
+                    color: "green",
+                    fontSize: "21px",
+                    marginInline: "5px",
+                  }}
+                  onClick={() => setIsEditable(!isEditable)}
+                />
+              )}
+              {isEditable && (
+                <FiSave
+                  onClick={() => {
+                    editPost(
+                      post.id,
+                      titleRef.current.innerText,
+                      bodyRef.current.innerText
+                    );
+                    setIsEditable(false);
+                  }}
+                  style={{
+                    color: "blue",
+                    fontSize: "24px",
+                    marginInline: "5px",
+                  }}
+                />
+              )}
+            </div>
           )}
-          {post.title}
-        </h5>
-        <p style={{ color: "#808080" }}>{post.body}</p>
+        </div>
+        <p
+          ref={bodyRef}
+          contentEditable={isEditable}
+          style={{ color: "#808080" }}
+        >
+          {post.body}
+        </p>
         <AddComment postId={post.id} setIsCommentsOn={setIsCommentsOn} />
         <p
           className="hover-pointer"

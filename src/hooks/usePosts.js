@@ -16,6 +16,7 @@ export function usePosts() {
 
 export function PostProvider({ children }) {
   const [posts, setPosts] = useState([]);
+  const [receivedPosts, setReceivedPosts] = useState([]);
 
   const retrievePosts = async () => {
     const postsResponse = await fetch(
@@ -39,6 +40,7 @@ export function PostProvider({ children }) {
       };
     });
 
+    setReceivedPosts(mergedArray);
     setPosts(mergedArray);
   };
 
@@ -56,7 +58,7 @@ export function PostProvider({ children }) {
     const id = idToAssign;
     if (!localStorage.getItem("posts")) {
       setPosts([
-        ...posts,
+        ...receivedPosts,
         {
           id: idToAssign,
           title,
@@ -79,7 +81,7 @@ export function PostProvider({ children }) {
       );
     } else {
       setPosts([
-        ...posts,
+        ...receivedPosts,
         {
           id: idToAssign,
           title,
@@ -134,13 +136,6 @@ export function PostProvider({ children }) {
     }
   };
 
-  const updatePost = (postId, updatedPost) => {
-    const updatedPosts = posts.map((post) =>
-      post.id === postId ? updatedPost : post
-    );
-    setPosts(updatedPosts);
-  };
-
   const deletePost = (postId) => {
     const currentPosts = JSON.parse(localStorage.getItem("posts"));
     const finalPosts = currentPosts.filter((post) => post.id !== postId);
@@ -156,13 +151,27 @@ export function PostProvider({ children }) {
     localStorage.setItem("comments", JSON.stringify(finalComments));
   };
 
+  const editPost = (postId, title, body) => {
+    const currentPosts = JSON.parse(localStorage.getItem("posts"));
+    const finalPosts = currentPosts.map((post) => {
+      if (post.id === postId) {
+        post.title = title;
+        post.body = body;
+      }
+      return post;
+    });
+
+    setPosts([...receivedPosts, finalPosts]);
+    localStorage.setItem("posts", JSON.stringify(finalPosts));
+  };
+
   const value = {
     posts,
     addPost,
-    updatePost,
     deletePost,
     addComment,
     deleteComment,
+    editPost,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
