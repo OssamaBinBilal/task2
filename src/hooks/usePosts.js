@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { retrievePostsWithUsers } from "../apiHandlers/apiHandlers";
 
 const PostContext = createContext();
 
@@ -17,38 +18,13 @@ export function PostProvider({ children }) {
   const [posts, setPosts] = useState([]);
   const [receivedPosts, setReceivedPosts] = useState([]);
 
-  const retrievePosts = async () => {
-    try {
-      const postsResponse = await fetch(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
-      const fetchedPosts = await postsResponse.json();
-      const usersResponse = await fetch(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      const fetchedUsers = await usersResponse.json();
-
-      const mergedArray = fetchedPosts.map((post) => {
-        return {
-          ...post,
-          username: fetchedUsers.filter((user) => user.id === post.userId)[0]
-            .username,
-          nameOfUser: fetchedUsers.filter((user) => user.id === post.userId)[0]
-            .name,
-          userEmail: fetchedUsers.filter((user) => user.id === post.userId)[0]
-            .email,
-        };
-      });
-
-      setReceivedPosts(mergedArray);
-      setPosts(mergedArray);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    retrievePosts();
+    retrievePostsWithUsers
+      .then((response) => {
+        setReceivedPosts(response);
+        setPosts(response);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   const addPost = (title, body) => {
@@ -57,6 +33,12 @@ export function PostProvider({ children }) {
     const nameOfUser = JSON.parse(
       localStorage.getItem("currentUser")
     )?.username;
+    retrievePostsWithUsers()
+      .then((response) => {
+        setReceivedPosts(response);
+        setPosts(response);
+      })
+      .catch((error) => console.log(error));
 
     const id = idToAssign;
     if (!localStorage.getItem("posts")) {

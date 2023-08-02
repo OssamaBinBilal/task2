@@ -1,23 +1,13 @@
 import { useState, useEffect } from "react";
+import { fetchUsers } from "../apiHandlers/apiHandlers";
 
 const useUsers = () => {
   const [users, setUsers] = useState([]);
-  const [currentLoggedInUser, setCurrentLoggedInUser] = useState();
 
   useEffect(() => {
-    const retrieveUsers = () => {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      fetch("https://jsonplaceholder.typicode.com/users", requestOptions)
-        .then((response) => response.text())
-        .then((result) => setUsers(JSON.parse(result)))
-        .catch((error) => console.log("error", error));
-    };
-
-    retrieveUsers();
+    fetchUsers
+      .then((response) => setUsers(response))
+      .catch((e) => console.log(e));
   }, []);
 
   const addUser = (email, username, password, currentPassword) => {
