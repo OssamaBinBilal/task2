@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import SubmitButton from "../../components/SubmitButton/SubmitButton";
-import TextInput from "../../components/TextInput/TextInput";
 import { useAuth } from "../../hooks/useAuth";
+import Button from "../../atoms/Button";
+import Input from "../../atoms/Input";
 
 const SignIn = () => {
   const { login } = useAuth();
@@ -26,13 +26,19 @@ const SignIn = () => {
       <h1 className="mb-5" style={{ color: "#3b5998" }}>
         Log into your account
       </h1>
-      <TextInput placeholder="Email" passedRef={emailRef} type={"email"} />
-      <TextInput
-        placeholder="Password"
-        passedRef={passwordRef}
-        type={"password"}
+      <Input
+        placeholder="Email"
+        ref={emailRef}
+        type={"email"}
+        classes="w-50 mb-2"
       />
-      <SubmitButton text={"Sign In"} onClick={handleLogin} />
+      <Input
+        placeholder="Password"
+        ref={passwordRef}
+        type={"password"}
+        classes="w-50 mb-2"
+      />
+      <Button text="Sign In" onClick={handleLogin} classes="w-50 my-3" />
       <p>
         Don't have an account? <Link to={"/signup"}>Sign up</Link> right here.
       </p>

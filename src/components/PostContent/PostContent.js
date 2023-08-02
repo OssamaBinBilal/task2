@@ -5,6 +5,7 @@ import PostIcons from "../PostIcons/PostIcons";
 import PostBody from "../PostBody/PostBody";
 import ViewCommentsBtn from "../ViewCommentsBtn/ViewCommentsBtn";
 import Comments from "../Comments/Comments";
+import Input from "../../atoms/Input";
 
 const AddComment = ({ postId, setIsCommentsOn }) => {
   const inputRef = useRef();
@@ -19,14 +20,12 @@ const AddComment = ({ postId, setIsCommentsOn }) => {
   };
 
   return (
-    <div className="my-3">
-      <input
-        ref={inputRef}
-        className="p-2 w-100 border-0 rounded"
-        placeholder="Add a comment..."
-        onKeyUp={handleKeyPress}
-      />
-    </div>
+    <Input
+      ref={inputRef}
+      classes="p-2 w-100 border-0 rounded mb-3"
+      placeholder="Add a comment..."
+      onKeyUp={handleKeyPress}
+    />
   );
 };
 

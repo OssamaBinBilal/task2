@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import useUsers from "../../hooks/useUsers";
-import TextInput from "../../components/TextInput/TextInput";
-import SubmitButton from "../../components/SubmitButton/SubmitButton";
+import Button from "../../atoms/Button";
+import Input from "../../atoms/Input";
 
 const SignUp = () => {
   const { addUser } = useUsers();
@@ -43,19 +43,31 @@ const SignUp = () => {
       <h1 className="mb-5" style={{ color: "#3b5998" }}>
         Sign up for an account
       </h1>
-      <TextInput placeholder="Email" passedRef={emailRef} type={"email"} />
-      <TextInput placeholder="Username" passedRef={usernameRef} type={"text"} />
-      <TextInput
+      <Input
+        placeholder="Email"
+        ref={emailRef}
+        classes="w-50 mb-2"
+        type={"email"}
+      />
+      <Input
+        placeholder="Username"
+        ref={usernameRef}
+        classes="w-50 mb-2"
+        type={"text"}
+      />
+      <Input
         placeholder="Password"
-        passedRef={passwordRef}
+        ref={passwordRef}
+        classes="w-50 mb-2"
         type={"password"}
       />
-      <TextInput
+      <Input
         placeholder="Confirm Password"
+        ref={confirmPasswordRef}
+        classes="w-50 mb-2"
         type={"password"}
-        passedRef={confirmPasswordRef}
       />
-      <SubmitButton text={"Sign Up"} onClick={signUpHandler} />
+      <Button text="Sign Up" onClick={signUpHandler} classes="w-50 my-2" />
 
       <p>
         Already have an account? <Link to={"/login"}>Login instead</Link>

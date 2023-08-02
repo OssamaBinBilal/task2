@@ -1,10 +1,10 @@
 import React from "react";
 
-const SidebarButton = ({ text, onClick }) => {
+const Button = ({ onClick, text, classes }) => {
   return (
     <button
-      className="btn btn-primary w-100 mb-3 border-0"
       style={{ backgroundColor: "#3b5998" }}
+      className={"btn btn-primary border-0 " + classes}
       onClick={onClick}
     >
       {text}
@@ -12,4 +12,4 @@ const SidebarButton = ({ text, onClick }) => {
   );
 };
 
-export default SidebarButton;
+export default Button;

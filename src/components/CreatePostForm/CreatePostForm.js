@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { usePosts } from "../../hooks/usePosts";
-import NewPostTitleInput from "../NewPostTitleInput/NewPostTitleInput";
-import NewPostBodyInput from "../NewPostBodyInput/NewPostBodyInput";
-import NewPostSubmitButton from "../NewPostSubmitButton/NewPostSubmitButton";
+import Input from "../../atoms/Input";
+import TextArea from "../../atoms/TextArea";
+import Button from "../../atoms/Button";
 
 const CreatePostForm = () => {
   const { addPost } = usePosts();
@@ -21,17 +21,18 @@ const CreatePostForm = () => {
   return (
     <form className="mb-5">
       <div className="form-group">
-        <NewPostTitleInput
+        <Input
           placeholder="Give your post a title"
           ref={titleRef}
+          classes={"mb-2"}
         />
-        <NewPostBodyInput
+        <TextArea
           placeholder={`What's on your mind, ${
             JSON.parse(localStorage.getItem("currentUser"))?.username
           }?`}
           ref={contentRef}
         />
-        <NewPostSubmitButton text="PUBLISH" onClick={handleSubmit} />
+        <Button text={"PUBLISH"} onClick={handleSubmit} classes={"w-100"} />
       </div>
     </form>
   );

@@ -33,7 +33,7 @@ export function PostProvider({ children }) {
     const nameOfUser = JSON.parse(
       localStorage.getItem("currentUser")
     )?.username;
-    retrievePostsWithUsers()
+    retrievePostsWithUsers
       .then((response) => {
         setReceivedPosts(response);
         setPosts(response);
