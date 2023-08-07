@@ -5,9 +5,7 @@ const useUsers = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchUsers
-      .then((response) => setUsers(response))
-      .catch((e) => console.log(e));
+    fetchUsers.then((response) => setUsers(response));
   }, []);
 
   const addUser = (email, username, password, currentPassword) => {

@@ -19,12 +19,10 @@ export function PostProvider({ children }) {
   const [receivedPosts, setReceivedPosts] = useState([]);
 
   useEffect(() => {
-    retrievePostsWithUsers
-      .then((response) => {
-        setReceivedPosts(response);
-        setPosts(response);
-      })
-      .catch((error) => console.log(error));
+    retrievePostsWithUsers.then((response) => {
+      setReceivedPosts(response);
+      setPosts(response);
+    });
   }, []);
 
   const addPost = (title, body) => {
@@ -33,12 +31,10 @@ export function PostProvider({ children }) {
     const nameOfUser = JSON.parse(
       localStorage.getItem("currentUser")
     )?.username;
-    retrievePostsWithUsers
-      .then((response) => {
-        setReceivedPosts(response);
-        setPosts(response);
-      })
-      .catch((error) => console.log(error));
+    retrievePostsWithUsers.then((response) => {
+      setReceivedPosts(response);
+      setPosts(response);
+    });
 
     const id = idToAssign;
     if (!localStorage.getItem("posts")) {
