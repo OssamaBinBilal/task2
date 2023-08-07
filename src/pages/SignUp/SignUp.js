@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import useUsers from "../../hooks/useUsers";
 import Button from "../../atoms/Button";
@@ -25,6 +25,20 @@ const SignUp = () => {
     passwordRef.current.value = "";
     confirmPasswordRef.current.value = "";
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        signUpHandler();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
 
   const signUpHandler = () => {
     if (emailRef.current.value === "") {
