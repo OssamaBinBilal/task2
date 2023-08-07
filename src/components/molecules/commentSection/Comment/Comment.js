@@ -1,6 +1,4 @@
 import { useRef, useState } from "react";
-import CommentEmail from "../CommentEmail/CommentEmail";
-import CommentBody from "../CommentBody/CommentBody";
 import CommentIcons from "../CommentIcons/CommentIcons";
 
 const Comment = ({ id, email, body, commentList, setCommentList }) => {
@@ -9,8 +7,17 @@ const Comment = ({ id, email, body, commentList, setCommentList }) => {
 
   return (
     <p key={id} className="d-flex">
-      <CommentEmail email={email} />
-      <CommentBody bodyRef={bodyRef} isEditable={isEditable} body={body} />
+      <span className="fw-bold">{email}</span>
+      <p
+        ref={bodyRef}
+        contentEditable={isEditable}
+        style={{
+          color: "#808080",
+          marginLeft: "5px",
+        }}
+      >
+        : {body}
+      </p>
       {email === JSON.parse(localStorage.getItem("currentUser"))?.email && (
         <CommentIcons
           id={id}

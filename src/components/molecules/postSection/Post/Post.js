@@ -1,5 +1,3 @@
-import React from "react";
-import PostAuthor from "../PostAuthor/PostAuthor";
 import PostContent from "../PostContent/PostContent";
 
 const Post = ({ post, isCustom }) => {
@@ -11,7 +9,12 @@ const Post = ({ post, isCustom }) => {
       }}
       className="my-5 rounded"
     >
-      <PostAuthor name={post.nameOfUser} email={post.userEmail} />
+      <h6
+        className="font-weight-bold px-3 py-2 rounded-top"
+        style={{ backgroundColor: "#f7f7f7", display: "inline" }}
+      >
+        {`${post.nameOfUser} - ${post.userEmail}`}
+      </h6>
       <PostContent post={post} isCustom={isCustom} />
     </div>
   );

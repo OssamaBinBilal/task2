@@ -1,22 +1,29 @@
-import { usePosts } from "../../hooks/usePosts";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiEdit, FiSave } from "react-icons/fi";
+import { usePosts } from "../../../../hooks/usePosts";
 
-const PostIcons = ({ post, isEditable, setIsEditable, titleRef, bodyRef }) => {
-  const { deletePost, editPost } = usePosts();
-
+const CommentIcons = ({
+  id,
+  setCommentList,
+  commentList,
+  isEditable,
+  setIsEditable,
+  bodyRef,
+}) => {
+  const { editComment, deleteComment } = usePosts();
   return (
-    <div style={{ marginLeft: "auto" }}>
+    <>
       <RiDeleteBin6Line
-        className="hover-pointer"
-        onClick={() => deletePost(post.id)}
-        style={{ color: "red", fontSize: "24px" }}
+        onClick={() => {
+          deleteComment(id);
+          setCommentList([...commentList]);
+        }}
+        style={{ color: "red", marginLeft: "auto" }}
       />
       {!isEditable && (
         <FiEdit
           style={{
             color: "green",
-            fontSize: "20px",
             marginInline: "5px",
           }}
           className="hover-pointer"
@@ -27,22 +34,17 @@ const PostIcons = ({ post, isEditable, setIsEditable, titleRef, bodyRef }) => {
         <FiSave
           className="hover-pointer"
           onClick={() => {
-            editPost(
-              post.id,
-              titleRef.current.innerText,
-              bodyRef.current.innerText
-            );
+            editComment(id, bodyRef.current.innerText);
             setIsEditable(false);
           }}
           style={{
             color: "blue",
-            fontSize: "22px",
             marginInline: "5px",
           }}
         />
       )}
-    </div>
+    </>
   );
 };
 
-export default PostIcons;
+export default CommentIcons;

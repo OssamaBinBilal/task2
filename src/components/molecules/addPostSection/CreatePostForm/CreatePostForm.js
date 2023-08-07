@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import { usePosts } from "../../hooks/usePosts";
-import Input from "../../atoms/Input";
-import TextArea from "../../atoms/TextArea";
-import Button from "../../atoms/Button";
+import { usePosts } from "../../../../hooks/usePosts";
+import Input from "../../../../atoms/Input";
+import TextArea from "../../../../atoms/TextArea";
+import Button from "../../../../atoms/Button";
 
 const CreatePostForm = () => {
   const { addPost } = usePosts();

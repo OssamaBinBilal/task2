@@ -1,7 +1,7 @@
 import { usePosts } from "../../hooks/usePosts";
+import CreatePostForm from "../molecules/addPostSection/CreatePostForm/CreatePostForm";
 
-import CreatePostForm from "../CreatePostForm/CreatePostForm";
-import PostList from "../PostList/PostList";
+import PostList from "../molecules/postSection/PostList/PostList";
 
 const Mainbar = () => {
   const { posts } = usePosts();

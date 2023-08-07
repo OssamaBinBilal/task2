@@ -1,11 +1,9 @@
-import { usePosts } from "../../hooks/usePosts";
 import { useRef, useState, useEffect } from "react";
-import PostTitle from "../PostTitle/PostTitle";
 import PostIcons from "../PostIcons/PostIcons";
-import PostBody from "../PostBody/PostBody";
-import ViewCommentsBtn from "../ViewCommentsBtn/ViewCommentsBtn";
-import Comments from "../Comments/Comments";
-import Input from "../../atoms/Input";
+import EditableParagraph from "../../../../atoms/EditableParagraph";
+import Comments from "../../../molecules/commentSection/Comments/Comments";
+import Input from "../../../../atoms/Input";
+import { usePosts } from "../../../../hooks/usePosts";
 
 const AddComment = ({ postId, setIsCommentsOn }) => {
   const inputRef = useRef();
@@ -42,7 +40,9 @@ const PostContent = ({ post, isCustom }) => {
       className="p-3 rounded"
     >
       <div className="d-flex">
-        <PostTitle title={post.title} ref={titleRef} isEditable={isEditable} />
+        <h5 ref={titleRef} contentEditable={isEditable}>
+          {post.title}
+        </h5>
         {post.userEmail ===
           JSON.parse(localStorage.getItem("currentUser")).email && (
           <PostIcons
@@ -54,12 +54,19 @@ const PostContent = ({ post, isCustom }) => {
           />
         )}
       </div>
-      <PostBody body={post.body} bodyRef={bodyRef} isEditable={isEditable} />
-      <AddComment postId={post.id} setIsCommentsOn={setIsCommentsOn} />
-      <ViewCommentsBtn
-        text="View Comments"
-        onClick={() => setIsCommentsOn(!isCommentsOn)}
+      <EditableParagraph
+        bodyRef={bodyRef}
+        isEditable={isEditable}
+        body={post.body}
       />
+      <AddComment postId={post.id} setIsCommentsOn={setIsCommentsOn} />
+      <p
+        className="hover-pointer"
+        onClick={() => setIsCommentsOn(!isCommentsOn)}
+      >
+        View Comments
+      </p>
+
       {isCommentsOn ? <Comments id={post.id} isCustom={isCustom} /> : <></>}
     </div>
   );

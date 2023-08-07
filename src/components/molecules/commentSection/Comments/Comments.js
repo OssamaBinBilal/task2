@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-
 import Comment from "../Comment/Comment";
-import { fetchCommentsByPost } from "../../apiHandlers/apiHandlers";
+import { fetchCommentsByPost } from "../../../../apiHandlers/apiHandlers";
 
 const Comments = ({ id, isCustom }) => {
   const [commentList, setCommentList] = useState([]);
