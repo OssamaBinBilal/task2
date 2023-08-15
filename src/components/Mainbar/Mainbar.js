@@ -4,12 +4,12 @@ import CreatePostForm from "../molecules/addPostSection/CreatePostForm/CreatePos
 import PostList from "../molecules/postSection/PostList/PostList";
 
 const Mainbar = () => {
-  const { posts } = usePosts();
+  const { receivedPosts } = usePosts();
 
   return (
     <>
       <CreatePostForm />
-      <PostList posts={posts} />
+      <PostList posts={receivedPosts} />
     </>
   );
 };

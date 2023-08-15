@@ -21,7 +21,6 @@ export function PostProvider({ children }) {
   useEffect(() => {
     retrievePostsWithUsers.then((response) => {
       setReceivedPosts(response);
-      setPosts(response);
     });
   }, []);
 
@@ -31,15 +30,11 @@ export function PostProvider({ children }) {
     const nameOfUser = JSON.parse(
       localStorage.getItem("currentUser")
     )?.username;
-    retrievePostsWithUsers.then((response) => {
-      setReceivedPosts(response);
-      setPosts(response);
-    });
 
     const id = idToAssign;
     if (!localStorage.getItem("posts")) {
       setPosts([
-        ...receivedPosts,
+        ...posts,
         {
           id: idToAssign,
           title,
@@ -62,7 +57,7 @@ export function PostProvider({ children }) {
       );
     } else {
       setPosts([
-        ...receivedPosts,
+        ...JSON.parse(localStorage.getItem("posts")),
         {
           id: idToAssign,
           title,
@@ -166,6 +161,7 @@ export function PostProvider({ children }) {
     deleteComment,
     editPost,
     editComment,
+    receivedPosts,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
